@@ -2,120 +2,100 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  Sparkles,
-  Phone,
-  Mail,
-  MapPin,
-  ChevronRight,
-  Heart,
-} from "lucide-react";
+import { ArrowUpRight, Phone, Mail, MapPin } from "lucide-react";
 
-const footerLinks = {
-  Company: [
-    { href: "/about", label: "About Us" },
-    { href: "/industries", label: "Industries Served" },
-    { href: "/sustainability", label: "Sustainability" },
-    { href: "/blog", label: "Blog" },
-  ],
-  Products: [
-    { href: "/products", label: "All Products" },
-    { href: "/wholesale", label: "Wholesale" },
-    { href: "/distributor", label: "Become a Distributor" },
-  ],
-  Support: [
-    { href: "/faqs", label: "FAQs" },
-    { href: "/contact", label: "Contact Us" },
-    { href: "/contact", label: "Get a Quote" },
-  ],
-};
+const columns = [
+  {
+    title: "Company",
+    links: [
+      { href: "/about", label: "About Us" },
+      { href: "/sustainability", label: "Sustainability" },
+      { href: "/blog", label: "Blog" },
+      { href: "/faqs", label: "FAQs" },
+    ],
+  },
+  {
+    title: "Products",
+    links: [
+      { href: "/products", label: "All Products" },
+      { href: "/wholesale", label: "Wholesale" },
+      { href: "/distributor", label: "Distributors" },
+      { href: "/industries", label: "Industries" },
+    ],
+  },
+  {
+    title: "Contact",
+    links: [
+      { href: "/contact", label: "Get in Touch" },
+      { href: "/contact", label: "Request Quote" },
+      { href: "/distributor", label: "Apply as Distributor" },
+    ],
+  },
+];
 
 export default function Footer() {
   return (
-    <footer className="relative bg-brand-deep text-white overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid opacity-10" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand-green/5 rounded-full blur-3xl" />
+    <footer className="relative bg-ink border-t border-snow/5">
+      {/* Red divider */}
+      <div className="h-[3px] bg-gradient-to-r from-transparent via-red to-transparent" />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Top CTA Banner */}
+      <div className="mx-auto max-w-7xl px-6 py-20 lg:py-24">
+        {/* Large CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="py-16 border-b border-white/10"
+          viewport={{ once: true }}
+          className="mb-20"
         >
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div>
-              <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-                Ready to experience{" "}
-                <span className="text-brand-green">powerful cleaning</span>?
-              </h2>
-              <p className="mt-2 text-white/60 text-lg">
-                Partner with Makoti Detergents today.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-green px-6 py-3 font-medium text-black hover:bg-brand-green/90 transition-all duration-300 hover:shadow-lg hover:shadow-brand-green/30 active:scale-95"
-              >
-                <Sparkles size={18} />
-                Get a Quote
-              </Link>
-              <Link
-                href="/products"
-                className="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 font-medium text-white hover:bg-white/20 transition-all duration-300 active:scale-95"
-              >
-                Shop Products
-                <ChevronRight size={18} />
-              </Link>
-            </div>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-snow leading-none">
+            Ready to{" "}
+            <span className="gradient-brand">clean better</span>?
+          </h2>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Link
+              href="/contact"
+              className="group inline-flex items-center gap-2 bg-red px-7 py-3.5 text-sm font-bold uppercase tracking-widest text-white hover:bg-red-bright transition-all"
+            >
+              Start a Conversation
+              <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </Link>
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 border border-snow/20 px-7 py-3.5 text-sm font-bold uppercase tracking-widest text-snow/70 hover:border-snow/50 hover:text-snow transition-all"
+            >
+              View Products
+            </Link>
           </div>
         </motion.div>
 
-        {/* Links Grid */}
-        <div className="py-16 grid grid-cols-2 md:grid-cols-5 gap-8">
-          {/* Brand column */}
-          <div className="col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <span className="text-2xl">🧼</span>
-              <span className="text-xl font-bold tracking-tight">
-                Makoti<span className="text-brand-green">.</span>
+        {/* Columns */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+          {/* Brand */}
+          <div className="col-span-2 md:col-span-1">
+            <Link href="/" className="inline-flex items-center gap-2 mb-6">
+              <div className="w-8 h-8 bg-red flex items-center justify-center">
+                <span className="text-white font-black text-sm">M</span>
+              </div>
+              <span className="text-lg font-black tracking-tighter text-snow">
+                MAKOTI<span className="text-red">.</span>
               </span>
             </Link>
-            <p className="text-white/50 text-sm leading-relaxed max-w-xs">
-              Premium detergents and hygiene products designed to deliver powerful cleaning,
-              freshness, and reliable performance every day.
+            <p className="text-snow/40 text-sm leading-relaxed max-w-xs">
+              Premium detergents and hygiene products for homes and businesses across Zimbabwe.
             </p>
-            <div className="mt-6 space-y-3 text-sm text-white/60">
-              <div className="flex items-center gap-2">
-                <Phone size={14} className="text-brand-green" />
-                <span>+263 78 000 0000</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail size={14} className="text-brand-green" />
-                <span>info@makotidetergents.co.zw</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin size={14} className="text-brand-green" />
-                <span>Harare, Zimbabwe</span>
-              </div>
-            </div>
           </div>
 
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-white/40 mb-4">
-                {title}
+          {columns.map((col) => (
+            <div key={col.title}>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-snow/30 mb-6">
+                {col.title}
               </h3>
               <ul className="space-y-3">
-                {links.map((link) => (
+                {col.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/60 hover:text-brand-green transition-colors duration-200"
+                      className="text-sm text-snow/50 hover:text-red transition-colors duration-200"
                     >
                       {link.label}
                     </Link>
@@ -126,12 +106,17 @@ export default function Footer() {
           ))}
         </div>
 
+        {/* Contact strip */}
+        <div className="flex flex-wrap gap-6 py-8 border-t border-snow/5 text-xs text-snow/30">
+          <span className="flex items-center gap-2"><Phone size={12} className="text-red" /> +263 78 000 0000</span>
+          <span className="flex items-center gap-2"><Mail size={12} className="text-red" /> info@makotidetergents.co.zw</span>
+          <span className="flex items-center gap-2"><MapPin size={12} className="text-red" /> Harare, Zimbabwe</span>
+        </div>
+
         {/* Bottom */}
-        <div className="py-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/40">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 pt-6 border-t border-snow/5 text-xs text-snow/20">
           <p>© {new Date().getFullYear()} Makoti Detergents. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            Made with <Heart size={12} className="text-red-400 fill-red-400" /> in Zimbabwe
-          </p>
+          <p>Made in Zimbabwe 🇿🇼</p>
         </div>
       </div>
     </footer>

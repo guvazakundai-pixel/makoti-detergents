@@ -3,113 +3,91 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Send, CheckCircle, MessageCircle, Clock } from "lucide-react";
-import { FadeInView } from "@/components/Animations";
+import { Reveal, SectionLabel, SectionHeading } from "@/components/Animations";
+
+const info = [
+  { icon: <Phone size={18} />, t: "Phone", d: "+263 78 000 0000", s: "Mon–Fri, 8am–5pm" },
+  { icon: <Mail size={18} />, t: "Email", d: "info@makotidetergents.co.zw", s: "We respond within 24 hours" },
+  { icon: <MapPin size={18} />, t: "Location", d: "Harare, Zimbabwe", s: "Serving all provinces" },
+  { icon: <Clock size={18} />, t: "Business Hours", d: "Mon–Fri: 8AM–5PM", s: "Sat: 8AM–1PM" },
+];
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
-  const openWhatsApp = () => {
-    window.open("https://wa.me/263780000000?text=Hello%20Makoti%20Detergents!%20I%20would%20like%20to%20inquire%20about%20your%20products.", "_blank");
-  };
-
+  const [sent, setSent] = useState(false);
   return (
     <>
-      <section className="relative pt-32 pb-20 bg-brand-deep overflow-hidden">
-        <div className="absolute inset-0 bg-grid opacity-10" />
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-green/10 rounded-full blur-3xl" />
+      <section className="relative pt-40 pb-24 bg-ink overflow-hidden">
+        <div className="blob-blue w-[500px] h-[500px] -top-32 right-0" />
+        <div className="absolute inset-0 bg-dots opacity-30" />
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-          <FadeInView className="max-w-3xl">
-            <span className="text-sm font-semibold uppercase tracking-widest text-brand-green">Get In Touch</span>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mt-3">
-              Let&apos;s <span className="text-brand-green">talk</span>
+          <Reveal>
+            <SectionLabel>Get In Touch</SectionLabel>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-snow leading-none">
+              Let&apos;s <span className="gradient-brand">talk</span>
             </h1>
-            <p className="mt-6 text-lg text-white/60 leading-relaxed">
-              We would love to hear from you. Contact us for product inquiries, wholesale
-              orders, partnerships, or customer support.
+            <p className="mt-6 text-xl text-snow/40 max-w-2xl">
+              Product inquiries, wholesale orders, partnerships, or customer support — we would love to hear from you.
             </p>
-          </FadeInView>
+          </Reveal>
         </div>
       </section>
 
-      <section className="py-24 lg:py-32">
+      <section className="relative bg-ink py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-12">
-            {/* Contact Info */}
-            <div className="lg:col-span-1">
-              <FadeInView>
-                <h2 className="text-2xl font-bold text-brand-deep mb-8">Contact Information</h2>
-                <div className="space-y-6">
-                  {[
-                    { icon: <Phone size={20} />, title: "Phone", detail: "+263 78 000 0000", sub: "Monday – Friday, 8am – 5pm" },
-                    { icon: <Mail size={20} />, title: "Email", detail: "info@makotidetergents.co.zw", sub: "We respond within 24 hours" },
-                    { icon: <MapPin size={20} />, title: "Location", detail: "Harare, Zimbabwe", sub: "Serving all provinces" },
-                    { icon: <Clock size={20} />, title: "Business Hours", detail: "Mon – Fri: 8:00 AM – 5:00 PM", sub: "Sat: 8:00 AM – 1:00 PM" },
-                  ].map((item) => (
-                    <div key={item.title} className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0">
-                        {item.icon}
-                      </div>
-                      <div>
-                        <p className="font-semibold text-brand-deep">{item.title}</p>
-                        <p className="text-brand-charcoal/70">{item.detail}</p>
-                        <p className="text-xs text-brand-gray mt-0.5">{item.sub}</p>
-                      </div>
+            {/* Info */}
+            <Reveal>
+              <div className="space-y-6">
+                <h3 className="text-xl font-black text-snow mb-6">Contact Info</h3>
+                {info.map((item) => (
+                  <div key={item.t} className="flex gap-4">
+                    <span className="text-red mt-0.5 flex-shrink-0">{item.icon}</span>
+                    <div>
+                      <p className="font-bold text-snow text-sm">{item.t}</p>
+                      <p className="text-snow/50 text-sm">{item.d}</p>
+                      <p className="text-[10px] text-snow/20 mt-0.5">{item.s}</p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
 
-                {/* WhatsApp */}
-                <button
-                  onClick={openWhatsApp}
-                  className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-6 py-3.5 text-sm font-medium text-white hover:bg-green-600 transition-all active:scale-95"
+                <a
+                  href="https://wa.me/263780000000?text=Hello%20Makoti!%20I%20would%20like%20to%20inquire%20about%20your%20products."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-8 w-full inline-flex items-center justify-center gap-2 bg-green-600 px-6 py-3.5 text-sm font-bold uppercase tracking-widest text-white hover:bg-green-500 transition-all"
                 >
-                  <MessageCircle size={18} />
-                  Chat on WhatsApp
-                </button>
-              </FadeInView>
-            </div>
+                  <MessageCircle size={16} /> Chat on WhatsApp
+                </a>
+              </div>
+            </Reveal>
 
             {/* Form */}
             <div className="lg:col-span-2">
-              <FadeInView direction="left">
-                <div className="p-8 lg:p-10 rounded-3xl bg-white border border-brand-deep/5 shadow-xl shadow-black/5">
-                  <h2 className="text-2xl font-bold text-brand-deep mb-2">Send us a message</h2>
-                  <p className="text-sm text-brand-charcoal/50 mb-8">Fill in the form below and we&apos;ll get back to you as soon as possible.</p>
+              <Reveal delay={0.15}>
+                <div className="p-8 bg-ink-light border border-snow/5">
+                  <h3 className="text-2xl font-black text-snow mb-2">Send a Message</h3>
+                  <p className="text-sm text-snow/30 mb-8">Fill in the form and we&apos;ll get back to you promptly.</p>
 
-                  {submitted ? (
-                    <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16">
-                      <div className="w-20 h-20 rounded-full bg-brand-green/10 flex items-center justify-center mx-auto mb-6">
-                        <CheckCircle size={40} className="text-brand-green" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-brand-deep">Message Sent!</h3>
-                      <p className="mt-3 text-brand-charcoal/50 max-w-md mx-auto">Thank you for reaching out. Our team will get back to you within 24 hours.</p>
-                      <button onClick={() => setSubmitted(false)} className="mt-6 text-sm font-medium text-brand-green hover:text-brand-green-dark transition-colors">
-                        Send another message
-                      </button>
+                  {sent ? (
+                    <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="text-center py-16">
+                      <CheckCircle size={48} className="mx-auto text-red mb-4" />
+                      <p className="text-xl font-black text-snow">Message Sent!</p>
+                      <p className="text-snow/30 mt-2">We&apos;ll get back within 24 hours.</p>
+                      <button onClick={() => setSent(false)} className="mt-4 text-sm font-bold text-red hover:text-red-bright transition-colors">Send another</button>
                     </motion.div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                      <div className="grid sm:grid-cols-2 gap-5">
-                        {[
-                          { label: "Full Name", type: "text", placeholder: "Your full name" },
-                          { label: "Phone Number", type: "tel", placeholder: "+263 77 000 0000" },
-                          { label: "Email Address", type: "email", placeholder: "you@example.com" },
-                          { label: "Company Name", type: "text", placeholder: "Your company (optional)" },
-                        ].map((f) => (
-                          <div key={f.label}>
-                            <label className="block text-sm font-medium text-brand-deep mb-1.5">{f.label}</label>
-                            <input type={f.type} placeholder={f.placeholder} required className="w-full px-4 py-3 rounded-xl bg-brand-light border border-brand-deep/5 text-sm focus:outline-none focus:border-brand-green/50 transition-colors" />
+                    <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-4">
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        {["Full Name", "Phone", "Email", "Company"].map((l) => (
+                          <div key={l}>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-snow/40 mb-1.5">{l}</label>
+                            <input type="text" className="w-full px-4 py-3 bg-ink border border-snow/10 text-sm text-snow focus:outline-none focus:border-red/50 transition-colors" />
                           </div>
                         ))}
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-brand-deep mb-1.5">Subject</label>
-                        <select className="w-full px-4 py-3 rounded-xl bg-brand-light border border-brand-deep/5 text-sm focus:outline-none focus:border-brand-green/50 transition-colors">
+                        <label className="block text-xs font-bold uppercase tracking-widest text-snow/40 mb-1.5">Subject</label>
+                        <select className="w-full px-4 py-3 bg-ink border border-snow/10 text-sm text-snow focus:outline-none focus:border-red/50 transition-colors">
                           <option>Product Inquiry</option>
                           <option>Wholesale / Bulk Order</option>
                           <option>Become a Distributor</option>
@@ -119,29 +97,29 @@ export default function ContactPage() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-brand-deep mb-1.5">Message</label>
-                        <textarea rows={5} placeholder="Tell us how we can help..." required className="w-full px-4 py-3 rounded-xl bg-brand-light border border-brand-deep/5 text-sm focus:outline-none focus:border-brand-green/50 transition-colors resize-none" />
+                        <label className="block text-xs font-bold uppercase tracking-widest text-snow/40 mb-1.5">Message</label>
+                        <textarea rows={5} className="w-full px-4 py-3 bg-ink border border-snow/10 text-sm text-snow focus:outline-none focus:border-red/50 transition-colors resize-none" />
                       </div>
-                      <button type="submit" className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-brand-deep px-6 py-3.5 text-sm font-medium text-white hover:bg-brand-deep/90 transition-all active:scale-[0.98]">
-                        <Send size={16} /> Send Message
+                      <button type="submit" className="w-full flex items-center justify-center gap-2 bg-red px-6 py-3.5 text-sm font-bold uppercase tracking-widest text-white hover:bg-red-bright transition-all">
+                        <Send size={14} /> Send Message
                       </button>
                     </form>
                   )}
                 </div>
-              </FadeInView>
+              </Reveal>
             </div>
           </div>
         </div>
       </section>
 
       {/* Map placeholder */}
-      <section className="pb-24">
+      <section className="relative bg-ink pb-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="rounded-3xl overflow-hidden bg-brand-light h-[300px] flex items-center justify-center">
+          <div className="h-[300px] bg-ink-light border border-snow/5 flex items-center justify-center">
             <div className="text-center">
-              <MapPin size={40} className="mx-auto text-brand-green mb-3" />
-              <p className="font-bold text-brand-deep">Harare, Zimbabwe</p>
-              <p className="text-sm text-brand-charcoal/50">Serving customers nationwide</p>
+              <MapPin size={32} className="mx-auto text-red mb-3" />
+              <p className="font-black text-snow">Harare, Zimbabwe</p>
+              <p className="text-sm text-snow/30">Serving customers nationwide</p>
             </div>
           </div>
         </div>

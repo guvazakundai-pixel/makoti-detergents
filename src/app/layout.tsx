@@ -15,41 +15,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Makoti Detergents | Professional Cleaning Solutions Zimbabwe",
+  title: "Makoti Detergents | Powerful Cleaning, Everyday Living",
   description:
     "Makoti Detergents — premium detergents and hygiene products designed to deliver powerful cleaning, freshness, and reliable performance. Zimbabwe's trusted cleaning brand for homes and businesses.",
   keywords: [
-    "Zimbabwe detergents",
-    "cleaning chemicals Zimbabwe",
-    "washing powder Zimbabwe",
-    "dishwashing liquid Zimbabwe",
-    "pine gel Zimbabwe",
-    "bleach suppliers Zimbabwe",
-    "cleaning products Zimbabwe",
-    "hygiene products Zimbabwe",
-    "industrial detergents Zimbabwe",
-    "household cleaning chemicals",
+    "Zimbabwe detergents", "cleaning chemicals Zimbabwe", "washing powder Zimbabwe",
+    "dishwashing liquid Zimbabwe", "pine gel Zimbabwe", "bleach suppliers Zimbabwe",
+    "cleaning products Zimbabwe", "hygiene products Zimbabwe",
+    "industrial detergents Zimbabwe", "household cleaning chemicals",
   ],
   openGraph: {
     title: "Makoti Detergents | Professional Cleaning Solutions",
-    description:
-      "Premium detergents and hygiene products for homes and businesses across Zimbabwe and Southern Africa.",
+    description: "Premium detergents and hygiene products for homes and businesses across Zimbabwe and Southern Africa.",
     type: "website",
     locale: "en_ZW",
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className="min-h-screen flex flex-col bg-ink text-snow">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

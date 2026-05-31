@@ -1,232 +1,144 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  {
-    label: "Company",
-    children: [
-      { href: "/about", label: "About Us" },
-      { href: "/industries", label: "Industries Served" },
-      { href: "/sustainability", label: "Sustainability" },
-    ],
-  },
-  {
-    label: "Products",
-    children: [
-      { href: "/products", label: "All Products" },
-      { href: "/wholesale", label: "Wholesale" },
-    ],
-  },
-  { href: "/distributor", label: "Become a Distributor" },
-  { href: "/blog", label: "Blog" },
-  { href: "/faqs", label: "FAQs" },
+  { href: "/products", label: "Products" },
+  { href: "/about", label: "About" },
+  { href: "/wholesale", label: "Wholesale" },
+  { href: "/distributor", label: "Distributors" },
   { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [lastScroll, setLastScroll] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const now = window.scrollY;
+      setVisible(now < 100 || now < lastScroll);
+      setLastScroll(now);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [lastScroll]);
 
-  useEffect(() => {
-    setMobileOpen(false);
-    setOpenDropdown(null);
-  }, [pathname]);
-
-  const toggleDropdown = useCallback((label: string) => {
-    setOpenDropdown((prev) => (prev === label ? null : label));
-  }, []);
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   return (
     <>
       <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "glass shadow-lg shadow-black/5"
-            : "bg-transparent"
-        }`}
+        initial={{ y: 0 }}
+        animate={{ y: visible ? 0 : -100 }}
+        transition={{ duration: 0.4 }}
+        className="fixed top-0 left-0 right-0 z-50 bg-ink/95 backdrop-blur-md border-b border-snow/10"
       >
-        <nav className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4 lg:px-8">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <span className="text-2xl">🧼</span>
-            <span className="text-xl font-bold tracking-tight text-brand-deep">
-              Makoti<span className="text-brand-green">.</span>
+        {/* Thin red accent line at top */}
+        <div className="h-[2px] bg-gradient-to-r from-red via-red-bright to-transparent" />
+
+        <nav className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
+          {/* Logo — bold and simple */}
+          <Link href="/" className="group flex items-center gap-2">
+            <div className="w-8 h-8 bg-red flex items-center justify-center">
+              <span className="text-white font-black text-sm">M</span>
+            </div>
+            <span className="text-lg font-black tracking-tighter text-snow">
+              MAKOTI<span className="text-red">.</span>
             </span>
           </Link>
 
-          {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) =>
-              link.href ? (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative px-3 py-2 text-sm font-medium rounded-full transition-colors duration-300 ${
-                    pathname === link.href
-                      ? "text-brand-green bg-brand-green/10"
-                      : "text-brand-charcoal/80 hover:text-brand-deep hover:bg-brand-light"
-                  }`}
-                >
-                  {link.label}
-                  {pathname === link.href && (
-                    <motion.div
-                      layoutId="nav-active"
-                      className="absolute inset-0 bg-brand-green/10 rounded-full -z-10"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                </Link>
-              ) : (
-                <div
-                  key={link.label}
-                  className="relative"
-                  onMouseEnter={() => setOpenDropdown(link.label)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
-                  <button
-                    onClick={() => toggleDropdown(link.label)}
-                    className="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-full text-brand-charcoal/80 hover:text-brand-deep hover:bg-brand-light transition-colors duration-300"
-                  >
-                    {link.label}
-                    <ChevronDown
-                      size={14}
-                      className={`transition-transform duration-300 ${
-                        openDropdown === link.label ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                  <AnimatePresence>
-                    {openDropdown === link.label && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="absolute top-full left-0 mt-2 w-52 glass rounded-2xl p-2 shadow-xl shadow-black/5"
-                      >
-                        {link.children!.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className={`block px-4 py-2.5 text-sm rounded-xl transition-colors duration-200 ${
-                              pathname === child.href
-                                ? "bg-brand-green/10 text-brand-green font-medium"
-                                : "text-brand-charcoal/70 hover:text-brand-deep hover:bg-brand-light"
-                            }`}
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )
-            )}
+          {/* Desktop links — slim, industrial feel */}
+          <div className="hidden lg:flex items-center gap-0">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative px-4 py-2 text-xs font-semibold uppercase tracking-widest transition-colors duration-300 ${
+                  pathname === link.href
+                    ? "text-red"
+                    : "text-snow/50 hover:text-snow"
+                }`}
+              >
+                {link.label}
+                {pathname === link.href && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute bottom-0 left-4 right-4 h-[2px] bg-red"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </Link>
+            ))}
 
-            {/* CTA */}
             <Link
               href="/contact"
-              className="ml-4 inline-flex items-center gap-2 rounded-full bg-brand-deep px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-deep/90 transition-all duration-300 hover:shadow-lg hover:shadow-brand-deep/20 active:scale-95"
+              className="ml-6 group inline-flex items-center gap-1 bg-red px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white hover:bg-red-bright transition-all duration-300"
             >
-              <Sparkles size={14} />
-              Get a Quote
+              Get Quote
+              <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
 
-          {/* Mobile Toggle */}
+          {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-xl text-brand-deep hover:bg-brand-light transition-colors"
-            aria-label="Toggle menu"
+            className="lg:hidden p-2 text-snow hover:text-red transition-colors"
+            aria-label="Menu"
           >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </nav>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile full-screen overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 lg:hidden"
+            className="fixed inset-0 z-40 lg:hidden bg-ink"
           >
-            <div
-              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-              onClick={() => setMobileOpen(false)}
-            />
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute right-0 top-0 bottom-0 w-80 bg-white shadow-2xl p-6 pt-24 overflow-y-auto"
-            >
-              <div className="flex flex-col gap-1">
-                {navLinks.map((link) =>
-                  link.href ? (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={`px-4 py-3 rounded-xl text-base font-medium transition-colors ${
-                        pathname === link.href
-                          ? "bg-brand-green/10 text-brand-green"
-                          : "text-brand-charcoal hover:bg-brand-light"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <div key={link.label}>
-                      <div className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-gray mt-2">
-                        {link.label}
-                      </div>
-                      {link.children!.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className={`block px-4 py-3 ml-2 rounded-xl text-sm transition-colors ${
-                            pathname === child.href
-                              ? "bg-brand-green/10 text-brand-green font-medium"
-                              : "text-brand-charcoal/70 hover:bg-brand-light"
-                          }`}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )
-                )}
+            <div className="flex flex-col items-center justify-center h-full gap-6">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08 }}
+                >
+                  <Link
+                    href={link.href}
+                    className={`text-2xl font-black uppercase tracking-widest ${
+                      pathname === link.href ? "text-red" : "text-snow/60 hover:text-snow"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navLinks.length * 0.08 }}
+                className="mt-8"
+              >
                 <Link
                   href="/contact"
-                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-brand-deep px-5 py-3 text-base font-medium text-white hover:bg-brand-deep/90 transition-all"
+                  className="inline-flex items-center gap-2 bg-red px-8 py-4 text-sm font-bold uppercase tracking-widest text-white hover:bg-red-bright transition-all"
                 >
-                  <Sparkles size={16} />
-                  Get a Quote
+                  Get Quote <ArrowUpRight size={16} />
                 </Link>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

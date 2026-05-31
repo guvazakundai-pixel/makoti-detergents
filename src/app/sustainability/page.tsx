@@ -1,91 +1,73 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Leaf, Recycle, Factory, Heart, ShieldCheck, Droplets } from "lucide-react";
-import { FadeInView, StaggerContainer, StaggerItem, SectionHeader } from "@/components/Animations";
+import { ArrowUpRight, Leaf, Recycle, Factory, Heart, Shield, Droplets } from "lucide-react";
+import { Reveal, StaggerWrap, StaggerChild, SectionLabel, SectionHeading } from "@/components/Animations";
 
 const commitments = [
-  { icon: <Leaf size={28} />, title: "Eco-Conscious Formulas", desc: "We continuously work to develop biodegradable and environmentally friendly cleaning solutions that are tough on dirt but gentle on the planet." },
-  { icon: <Recycle size={28} />, title: "Responsible Packaging", desc: "We are committed to reducing packaging waste and exploring recyclable and reusable packaging options for our products." },
-  { icon: <Factory size={28} />, title: "Sustainable Manufacturing", desc: "Our production processes are designed to minimize waste, reduce water usage, and lower our carbon footprint." },
-  { icon: <Heart size={28} />, title: "Community Empowerment", desc: "We support local communities through employment opportunities, distributor partnerships, and hygiene education initiatives." },
-  { icon: <ShieldCheck size={28} />, title: "Safe Cleaning Solutions", desc: "All our products are developed with safety in mind — safe for your family, safe for your home, and safe for the environment when used as directed." },
-  { icon: <Droplets size={28} />, title: "Water Conservation", desc: "Our concentrated formulas require less water in production and allow for efficient dilution, reducing overall water consumption." },
+  { icon: <Leaf size={22} />, t: "Eco-Conscious Formulas", d: "Developing biodegradable and environmentally friendly cleaning solutions." },
+  { icon: <Recycle size={22} />, t: "Responsible Packaging", d: "Reducing packaging waste and exploring recyclable options." },
+  { icon: <Factory size={22} />, t: "Sustainable Manufacturing", d: "Minimizing waste, water usage, and carbon footprint." },
+  { icon: <Heart size={22} />, t: "Community Empowerment", d: "Creating jobs, distributor partnerships, and hygiene education." },
+  { icon: <Shield size={22} />, t: "Safe Solutions", d: "Products safe for families, homes, and the environment." },
+  { icon: <Droplets size={22} />, t: "Water Conservation", d: "Concentrated formulas require less water in production." },
 ];
 
 export default function SustainabilityPage() {
   return (
     <>
-      <section className="relative pt-32 pb-20 bg-brand-deep overflow-hidden">
-        <div className="absolute inset-0 bg-grid opacity-10" />
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-green/10 rounded-full blur-3xl" />
+      <section className="relative pt-40 pb-24 bg-ink overflow-hidden">
+        <div className="blob-blue w-[500px] h-[500px] -top-32 right-0" />
+        <div className="absolute inset-0 bg-dots opacity-30" />
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-          <FadeInView className="max-w-3xl">
-            <span className="text-sm font-semibold uppercase tracking-widest text-brand-green">Our Responsibility</span>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mt-3">
+          <Reveal>
+            <SectionLabel>Our Responsibility</SectionLabel>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-snow leading-none">
               Committed to a{" "}
-              <span className="text-brand-green">cleaner future</span>
+              <span className="gradient-brand">cleaner future</span>
             </h1>
-            <p className="mt-6 text-lg text-white/60 leading-relaxed">
-              Makoti Detergents is committed to responsible manufacturing practices,
-              environmental awareness, and safe cleaning solutions for healthier communities.
+            <p className="mt-6 text-xl text-snow/40 max-w-2xl">
+              Responsible manufacturing, environmental awareness, and safe solutions for healthier communities.
             </p>
-          </FadeInView>
+          </Reveal>
         </div>
       </section>
 
-      <section className="py-24 lg:py-32">
+      <section className="relative bg-ink py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <SectionHeader label="Our Commitments" title="Cleaning with conscience" description="We believe powerful cleaning shouldn't come at the cost of our environment or communities." />
-
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <StaggerWrap className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {commitments.map((c) => (
-              <StaggerItem key={c.title}>
-                <div className="p-8 rounded-3xl border border-brand-deep/5 glow-card h-full hover:border-brand-green/30 transition-colors">
-                  <div className="w-14 h-14 rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green mb-5">
-                    {c.icon}
-                  </div>
-                  <h3 className="text-lg font-bold text-brand-deep mb-3">{c.title}</h3>
-                  <p className="text-sm text-brand-charcoal/50 leading-relaxed">{c.desc}</p>
+              <StaggerChild key={c.t}>
+                <div className="p-8 bg-ink-light border border-snow/5 hover:border-red/30 transition-colors h-full">
+                  <span className="text-red">{c.icon}</span>
+                  <h3 className="text-lg font-black text-snow mt-4 mb-2">{c.t}</h3>
+                  <p className="text-sm text-snow/30">{c.d}</p>
                 </div>
-              </StaggerItem>
+              </StaggerChild>
             ))}
-          </StaggerContainer>
+          </StaggerWrap>
         </div>
       </section>
 
-      <section className="py-24 bg-brand-light">
+      <section className="relative bg-ink-light py-24 clip-diagonal-tl">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <FadeInView>
-              <div className="aspect-[4/3] rounded-3xl overflow-hidden bg-white">
-                <img src="/images/makoti-img-3.jpg" alt="Sustainable cleaning" className="w-full h-full object-cover" />
+            <Reveal>
+              <div className="aspect-[4/3] overflow-hidden">
+                <img src="/images/makoti-img-3.jpg" alt="Sustainable" className="w-full h-full object-cover" />
               </div>
-            </FadeInView>
-            <FadeInView direction="left">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-brand-deep">
-                Our <span className="gradient-text">promise</span>
-              </h2>
-              <div className="mt-8 space-y-6 text-brand-charcoal/70 leading-relaxed">
-                <p>
-                  At Makoti Detergents, we understand that our responsibility extends beyond
-                  making great cleaning products. We are committed to continuously improving
-                  our environmental and social impact.
-                </p>
-                <p>
-                  We aim to support healthier and cleaner communities through safe, effective
-                  cleaning solutions that families and businesses can trust.
-                </p>
-                <p>
-                  As we grow, we will continue to invest in more sustainable manufacturing
-                  processes, better packaging solutions, and community-focused initiatives
-                  across Zimbabwe and Southern Africa.
-                </p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <SectionLabel>Our Promise</SectionLabel>
+              <SectionHeading>Cleaning with <span className="text-red">conscience</span></SectionHeading>
+              <div className="mt-8 space-y-4 text-snow/40 leading-relaxed">
+                <p>At Makoti Detergents, our responsibility extends beyond making great cleaning products. We are committed to continuously improving our environmental and social impact.</p>
+                <p>We aim to support healthier, cleaner communities through safe, effective cleaning solutions that families and businesses can trust.</p>
               </div>
-              <Link href="/contact" className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-green px-7 py-3.5 font-medium text-black hover:bg-brand-green/90 transition-all active:scale-95">
-                Partner With Us <ArrowRight size={18} />
+              <Link href="/contact" className="mt-8 group inline-flex items-center gap-2 bg-red px-6 py-3.5 text-sm font-bold uppercase tracking-widest text-white hover:bg-red-bright transition-all">
+                Partner With Us <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
-            </FadeInView>
+            </Reveal>
           </div>
         </div>
       </section>
